@@ -36,7 +36,6 @@ public class Drivetrain {
     public void move(double x, double y, double rx, float time) {
         ElapsedTime runtime = new ElapsedTime();
 
-
             double frontLeftPower = Math.min(y + x + rx, 1);
             double backLeftPower = Math.min(y - x + rx, 1);
             double frontRightPower = Math.min(y - x - rx, 1);
@@ -46,7 +45,7 @@ public class Drivetrain {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-            while(runtime.seconds() < time) {}
+            if(runtime.seconds() < time) {}
             frontLeftMotor.setPower(0);
             backLeftMotor.setPower(0);
             frontRightMotor.setPower(0);
@@ -54,5 +53,6 @@ public class Drivetrain {
 
 
     }
+
 
 }
