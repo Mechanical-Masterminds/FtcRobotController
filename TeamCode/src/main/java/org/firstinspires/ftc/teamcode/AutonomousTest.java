@@ -9,8 +9,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class AutonomousTest extends LinearOpMode{
 
     public void runOpMode() throws InterruptedException {
-        Drivetrain drive = new Drivetrain();
-        drive.init(hardwareMap, true);
-        drive.move(0, 0.5, 0, 2);
+        waitForStart();
+
+        while(opModeIsActive() && !isStopRequested()) {
+            Drivetrain drive = new Drivetrain();
+            drive.init(hardwareMap, true);
+            drive.move(0, 0.5, 0, 2);
+        }
+       
     }
 }
+
