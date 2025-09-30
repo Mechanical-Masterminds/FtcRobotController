@@ -17,63 +17,29 @@ public class MoveInASquare extends OpMode {
     private final Pose right = new Pose(96,96, Math.toRadians(90));
     private final Pose Down = new Pose(96,72,Math.toRadians(90));
     private final Pose left = new Pose(72,72,Math.toRadians(90));
-    private Path squarepreload;
-    private PathChain right1, Down1, left1;
+    private PathChain squarePath;
     public void buildPaths() {
-        squarepreload = new Path(new BezierLine(startpose, up));
-        squarepreload.setLinearHeadingInterpolation(startpose.getHeading(), up.getHeading());
-        right1 = follower.pathBuilder()
+
+        squarePath = follower.pathBuilder()
+                .addPath(new BezierLine(startpose, up))
+                .setLinearHeadingInterpolation(startpose.getHeading(), up.getHeading())
                 .addPath(new BezierLine(up, right))
                 .setLinearHeadingInterpolation(up.getHeading(), right.getHeading())
-                .build();
-        Down1 = follower.pathBuilder()
                 .addPath(new BezierLine(right, Down))
                 .setLinearHeadingInterpolation(right.getHeading(), Down.getHeading())
-                .build();
-        left1 = follower.pathBuilder()
                 .addPath(new BezierLine(Down, left))
-                        .setLinearHeadingInterpolation(Down.getHeading(), left.getHeading())
-                        .build();
+                .setLinearHeadingInterpolation(Down.getHeading(), left.getHeading())
+                .build();
+
 
     }
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(squarepreload);
+                follower.followPath(squarePath);
                 setPathState(1);
                 break;
             case 1:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
-                if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(right1,true);
-                    setPathState(2);
-                }
-                break;
-            case 2:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(Down1,true);
-                    setPathState(3);
-                }
-                break;
-            case 3:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-                if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(left1,true);
-                    setPathState(4);
-                }
-                break;
-            case 4:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);
