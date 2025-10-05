@@ -59,7 +59,6 @@ public class PatricksMoveInASquare extends OpMode {
 
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
-        autonomousPathUpdate();
 
         // Feedback to Driver Hub for debugging
         telemetry.addData("path state", pathState);
